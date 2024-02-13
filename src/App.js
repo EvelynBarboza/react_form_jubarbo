@@ -24,6 +24,9 @@ import './App.css';
 
 export default App;*/
 function App() {
+
+  //formData guarda la informacion que se ingresa en los formularios
+  //serFormData actualiza la nueva informacion que se agrega
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -38,7 +41,7 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Formulario enviado:', formData);
-    // Aquí puedes agregar la lógica para enviar los datos a un servidor o realizar otras acciones.
+    // Agregar lógica para enviar los datos a un servidor
   };
 
   return (
@@ -91,3 +94,6 @@ function App() {
 }
 
 export default App;
+
+//dudas
+//porque si pongo arriba del form me aparecen datos como mi nobre, ,mail mio y daranega?
