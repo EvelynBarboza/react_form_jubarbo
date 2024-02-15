@@ -1,28 +1,8 @@
 import React, { useState } from 'react';
+import * as yup from 'yup';
 import './App.css';
 
-/*function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
 
-export default App;*/
 function App() {
 
   //formData guarda la informacion que se ingresa en los formularios
@@ -38,9 +18,38 @@ function App() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const schema = yup.object().shape({
+    name: yup.string().required('El nombre es obligatorio'),
+    apellido: yup.string().required('El apellido es obligatorio'),
+    email: yup.string().email('Ingrese un correo electrónico válido').required('El correo es obligatorio'),
+    cedula: yup.string().test('cedula', 'Cédula no válida', function (value) {
+      // La función de validación personalizada para la cédula
+     // return validarCedula(value);
+    }).required('Agregar la cedula es obligatorio'),
+  });
+
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Formulario enviado:', formData);
+
+    try {
+      await schema.validate(formData, { abortEarly: false });
+      // Si la validación es exitosa, enviar los datos al servidor
+      //sendFormDataToServer();
+      console.log('Enviando datos')
+    } catch (error) {
+      // Manejar errores de validación
+      console.error('Errores de validación:', error.errors);
+  };
+
+    const formData = {
+      name: e.target.name.value,
+      apellido: e.target.apellido.value,
+      email: e.target.email.value,
+      cedula: e.target.cedula.value,
+    };
+  //console.log('Formulario enviado:', formData);
     // Agregar lógica para enviar los datos a un servidor
   };
 
